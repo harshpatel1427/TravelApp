@@ -1,0 +1,95 @@
+############################# Java Coding Conventions ############################################
+
+Add following profile in your IDE for JAVA coding style.
+
+For Eclipse:
+
+https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml
+
+Q. How to Add coding profile in Eclipse IDE?
+A. Use following link.
+
+   https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse
+
+
+############################ How to use Gerrit #############################################
+
+Gerrit is a code review system for Git and we will use it to review other's code. Once code is reviewed and submitted on Gerrit it will
+be automatically merged to git repository of gerrit.
+
+1. Sign In and Setup ssh keys in gerrit
+
+Sign in using Launchpad ID (create one if you don't have already). After that click on your name and select setting on right top corner.
+Select "SSH Public Keys" from left side menu. Instructions on how to add generate and add ssh key is there when you click on "Add Key"
+This will allow you to push code changes from gerrit. Don't forget to add SSH keys when you switch to other working environment!
+
+2. How to clone repository from gerrit?
+
+git clone ssh://xxxx:29418/TravelApp
+(Server's IP address will be given to you)
+
+Now you will have local copy of our Git repo.
+
+3. How to make and push changes for review?
+
+Change or add any file locally and then do following. It is highly recommened that you update README file with your name
+and other related info and push it for testing purspose.
+
+git add README.md
+
+git commit
+(NOTE: Above command will give you some error about change IDs as you don't have that "hook". Follow instructions on screen which is
+run "scp" command and then run "git commit --amend" to add change ID to previous commit)
+
+git push origin HEAD:refs/for/master
+(NOTE: Above command pushes code for review)
+
+Once above command succeed you will be given some URL where review is posted. It will be something like
+"http://xxxx:29419/TravelApp/1". Open this URL directly or goto the gerrit webpage and select "All" and "Open" inside that.
+
+There you will find one commit for review. Other people will review it and give their comments on it. Once you click that commit,
+you will be redirected to that particular review. You can open particular file from that review and can see the difference between
+different versions of that file. Select different patch set to view diff between any patch set.
+
+(NOTE: You need to "Add people" in your review. You can add people on your review's main page)
+
+4. How to review any commited code?
+
+Open gerrit webpage and select "All" and "Open" inside it. You can click on particular commit and open any file in it.
+
+Once file is open you can leave your comment on any line of that file by just clicking on that line. After that save that comment
+and once you are done reviewing that file just click on "Green Up Arrow" on right top side of file. It will redirect you to main
+page for that review.
+
+Now you can notify committer about your review by clicking on "Reply". You need to give "score" for that review. Commited can submit
+the code if and only if you give "+2" score.
+
+5. Address review comments
+
+Suppose someone suggested you some changes for file README.md. You can either reply to their review or you can change your code.
+If you are changing your code then after changing REAEDME file, you have to ddo following step.
+
+git add README.md
+git commit --amend
+git push origin HEAD:refs/for/master
+
+**
+(NOTE: If you don't provide "--amend" option in above "git commit" command then your changes will not be mappped to your already
+pending review. In order to do that your new commit's change ID must be as as your initial commit's change ID. That is why you need
+to provide "--amend". If you accidently forget that then you need to squash you commit and have to do "git rebase")
+**
+
+6. Submit already reviewed code
+
+Once all review comments are addressed, one can submit the code by clicking on submit which will automatically merge changes to git
+repository. After submitting it, everyone will have that changes when they do "git pull".
+
+References:
+
+1. How to setup gerrit: https://review.openstack.org/Documentation/install-quick.html (Need to be done once only)
+
+2. Git commands
+   --amend:             https://www.atlassian.com/git/tutorials/rewriting-history/git-commit--amend
+   rebase and squash:   http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html
+
+3. Gerrit tutorial: http://www.vogella.com/tutorials/Gerrit/article.html
